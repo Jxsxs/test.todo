@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { TodoForm } from './components/TodoList/TodoForm';
 import TodoList from './components/TodoList/TodoList';
 
+import 'tailwindcss/tailwind.css';
+
 const queryClient = new QueryClient();
 
 interface Todo {
@@ -12,7 +14,7 @@ interface Todo {
 }
 
 const App: React.FC = () => {
-  const { isLoading, error, data } = useQuery<Todo[]>('todos', () =>
+  const { isLoading, error, data, refetch } = useQuery<Todo[]>('todos', () =>
     fetch('http://localhost:3001/api/todos').then((response) => response.json())
   );
 
@@ -21,13 +23,14 @@ const App: React.FC = () => {
 
   const todos = data || [];
 
-
   return (
     <QueryClientProvider client={queryClient}>
       <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <h1>Todos: ({todos.length})</h1>
-      <TodoForm />
-      <TodoList todos={todos}/>
+        <div className="w-full max-w-md">
+        <h1 className="text-3xl font-bold bg-gray-300 p-2 mb-4 w-full">Todos: ({todos.length})</h1>
+          <TodoForm refetchTodos={refetch} />
+          <TodoList todos={todos} refetchTodos={refetch} />
+        </div>
       </div>
     </QueryClientProvider>
   );

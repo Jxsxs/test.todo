@@ -1,5 +1,6 @@
-import React from "react";
-import { TodoItem } from "./TodoItem";
+import React from 'react';
+import {TodoItem} from './TodoItem';
+import { RefetchOptions } from 'react-query';
 
 interface TodoListProps {
   todos: {
@@ -7,13 +8,16 @@ interface TodoListProps {
     text: string;
     completed: boolean;
   }[];
+  refetchTodos: any;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos }) => {
+const TodoList: React.FC<TodoListProps> = ({ todos, refetchTodos }) => {
   return (
     <div>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} />
+        <div key={todo.id} className="mb-2">
+          <TodoItem todo={todo} refetchTodos={refetchTodos} />
+        </div>
       ))}
     </div>
   );

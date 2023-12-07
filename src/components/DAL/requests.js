@@ -21,17 +21,8 @@ const TodoRequests = {
         return instance.delete('todos/'+id)
     },
     completeTodo(id, completed) {
-        console.log(`Completing todo with ID ${id} and completed: ${completed}`);
-        return instance.put(`todos/${id}`, { completed: completed })
-          .then(response => {
-            console.log('Complete todo response:', response.data);
-            return response.data;
-          })
-          .catch(error => {
-            console.error('Error completing todo:', error);
-            throw error;
-          });
-      },
+        return instance.patch(`todos/${id}`, { completed: completed })
+    },
 };
 
 export default TodoRequests;
